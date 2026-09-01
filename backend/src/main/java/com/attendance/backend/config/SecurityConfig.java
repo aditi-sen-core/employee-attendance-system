@@ -56,7 +56,7 @@ public class SecurityConfig {
         // React frontend
         configuration.setAllowedOrigins(
                 List.of("http://localhost:5173",
-                        "https://content-sparkle-production-7d06.up.railway.app"
+                        "https://employee-attendance.up.railway.app"
                 )
         );
 
