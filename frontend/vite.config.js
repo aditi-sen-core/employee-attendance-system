@@ -5,6 +5,6 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   preview: {
-    allowedHosts: ['content-sparkle-production-7d06.up.railway.app'],
+    allowedHosts: ['employee-attendance.up.railway.app'],
   },
 })
