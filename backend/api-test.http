@@ -1,0 +1,13 @@
+### Create Employee
+POST http://localhost:8080/api/employees
+Content-Type: application/json
+
+{
+  "name": "Anant Demo",
+  "email": "employee@demo.com",
+  "password": "demo123",
+  "role": "EMPLOYEE",
+  "department": "Engineering",
+  "joiningDate": "2025-01-15",
+  "leaveBalance": 20.0
+}
