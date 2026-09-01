@@ -205,7 +205,7 @@ export const HRDashboard = () => {
                       {getPendingLeaves().map((leave, idx) => (
                         <TableRow key={idx} hover>
                           <TableCell sx={{ fontWeight: 500 }}>
-                            {leave.employeeName}
+                            {leave.employee?.name || 'Unknown'}
                           </TableCell>
                           <TableCell>
                             {new Date(leave.startDate).toLocaleDateString()} -{' '}
