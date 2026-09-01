@@ -396,7 +396,7 @@ export const Login = () => {
                 mb: 0.5,
               }}
             >
-              Employee: emp@example.com / pass123
+              Employee: login@test.com / demo123
             </Typography>
 
             <Typography
@@ -412,7 +412,7 @@ export const Login = () => {
                 wordBreak: 'break-word',
               }}
             >
-              HR: hr@example.com / pass123
+              HR: hr@demo.com / hr123
             </Typography>
           </Box>
         </Card>
