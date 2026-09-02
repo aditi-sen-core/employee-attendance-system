@@ -18,7 +18,7 @@ import {
   DialogContent,
   DialogActions,
   Grid,
-  Alert,
+  MenuItem,
 } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import employeeApi from '../../api/employeeApi';
@@ -40,6 +40,22 @@ export const Employees = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [deleting, setDeleting] = useState(false);
+
+   // Add employee state
+  const [addDialogOpen, setAddDialogOpen] = useState(false);
+  const [adding, setAdding] = useState(false);
+
+  const [newEmployee, setNewEmployee] = useState({
+    name: '',
+    email: '',
+    password: '',
+    role: 'EMPLOYEE',
+    department: '',
+    joiningDate: '',
+    leaveBalance: 20,
+  });
+
+  const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
     fetchEmployees();
@@ -69,6 +85,94 @@ export const Employees = () => {
       setLoading(false);
     }
   };
+
+   // =========================================================
+  // ADD EMPLOYEE
+  // =========================================================
+
+  const handleAddEmployee = () => {
+    setNewEmployee({
+      name: '',
+      email: '',
+      password: '',
+      role: 'EMPLOYEE',
+      department: '',
+      joiningDate: '',
+      leaveBalance: 20,
+    });
+
+    setError(null);
+    setFormErrors({});
+    setAddDialogOpen(true);
+  };
+
+  const handleNewEmployeeChange = (e) => {
+    const { name, value } = e.target;
+
+    setNewEmployee((prev) => ({
+      ...prev,
+      [name]: name === 'leaveBalance' ? Number(value) : value,
+    }));
+  };
+
+  const handleCreateEmployee = async () => {
+  const errors = {};
+
+  if (!newEmployee.name.trim()) {
+    errors.name = 'Name is required';
+  }
+
+  if (!newEmployee.email.trim()) {
+    errors.email = 'Email is required';
+  } else if (!/\S+@\S+\.\S+/.test(newEmployee.email)) {
+    errors.email = 'Enter a valid email address';
+  }
+
+  if (!newEmployee.password.trim()) {
+    errors.password = 'Password is required';
+  }
+
+  if (!newEmployee.role) {
+    errors.role = 'Role is required';
+  }
+
+  if (!newEmployee.department.trim()) {
+    errors.department = 'Department is required';
+  }
+
+  if (!newEmployee.joiningDate) {
+    errors.joiningDate = 'Joining date is required';
+  }
+
+  if (newEmployee.leaveBalance < 0) {
+    errors.leaveBalance = 'Leave balance cannot be negative';
+  }
+
+  setFormErrors(errors);
+
+  if (Object.keys(errors).length > 0) {
+    return;
+  }
+
+  try {
+    setAdding(true);
+    setError(null);
+
+    await employeeApi.createEmployee(newEmployee);
+
+    setAddDialogOpen(false);
+    setFormErrors({});
+
+    await fetchEmployees();
+  } catch (err) {
+    const message =
+      err.response?.data?.message || 'Failed to create employee';
+
+    setError(message);
+  } finally {
+    setAdding(false);
+  }
+};
 
   const handleDeleteClick = (employee) => {
     setSelectedEmployee(employee);
@@ -134,7 +238,7 @@ export const Employees = () => {
           }}
           sx={{ flex: 1, minWidth: 200 }}
         />
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={handleAddEmployee}>
           + Add Employee
         </Button>
       </Box>
@@ -222,6 +326,129 @@ export const Employees = () => {
           )}
         </CardContent>
       </Card>
+
+      {/* Add Employee Dialog */}
+      <Dialog
+        open={addDialogOpen}
+        onClose={() => setAddDialogOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Add Employee</DialogTitle>
+
+        <DialogContent>
+          <Grid container spacing={2} sx={{ mt: 0.5 }}>
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Name"
+                name="name"
+                value={newEmployee.name}
+                onChange={handleNewEmployeeChange}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Email"
+                name="email"
+                type="email"
+                value={newEmployee.email}
+                onChange={handleNewEmployeeChange}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Password"
+                name="password"
+                type="password"
+                value={newEmployee.password}
+                onChange={handleNewEmployeeChange}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                select
+                label="Role"
+                name="role"
+                value={newEmployee.role}
+                onChange={handleNewEmployeeChange}
+                required
+              >
+                <MenuItem value="EMPLOYEE">Employee</MenuItem>
+                <MenuItem value="HR">HR Manager</MenuItem>
+              </TextField>
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Department"
+                name="department"
+                value={newEmployee.department}
+                onChange={handleNewEmployeeChange}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Joining Date"
+                name="joiningDate"
+                type="date"
+                value={newEmployee.joiningDate}
+                onChange={handleNewEmployeeChange}
+                slotProps={{
+                inputLabel: {
+                  shrink: true,
+                },
+              }}
+                required
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <TextField
+                fullWidth
+                label="Leave Balance"
+                name="leaveBalance"
+                type="number"
+                value={newEmployee.leaveBalance}
+                onChange={handleNewEmployeeChange}
+                inputProps={{ min: 0 }}
+              />
+            </Grid>
+
+          </Grid>
+        </DialogContent>
+
+        <DialogActions>
+          <Button
+            onClick={() => setAddDialogOpen(false)}
+            disabled={adding}
+          >
+            Cancel
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={handleCreateEmployee}
+            disabled={adding}
+          >
+            {adding ? 'Creating...' : 'Create Employee'}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Delete Confirmation Dialog */}
       <ConfirmDialog
