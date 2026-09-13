@@ -56,7 +56,7 @@ public class SecurityConfig {
         // React frontend
         configuration.setAllowedOrigins(
                 List.of("http://localhost:5173",
-                        "https://employee-attendance.up.railway.app"
+                        "employee-attendance-system-orcin.vercel.app"
                 )
         );
 

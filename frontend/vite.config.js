@@ -5,6 +5,6 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   preview: {
-    allowedHosts: ['employee-attendance.up.railway.app'],
+    allowedHosts: ['employee-attendance-system-orcin.vercel.app'],
   },
 })

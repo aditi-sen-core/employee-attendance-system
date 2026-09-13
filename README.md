@@ -9,9 +9,9 @@ The application provides separate experiences for **Employees** and **HR Manager
 
 ## 🚀 Live Demo
 
-###  **[OPEN EMPLOYEE ATTENDANCE SYSTEM](https://employee-attendance.up.railway.app/)**
+###  **[OPEN EMPLOYEE ATTENDANCE SYSTEM](employee-attendance-system-orcin.vercel.app)**
 
-**Live application:** https://employee-attendance.up.railway.app/
+**Live application:** employee-attendance-system-orcin.vercel.app
 
 Use the demo credentials below to explore both Employee and HR workflows.
 
@@ -29,7 +29,7 @@ Email: hr@demo.com
 Password: hr123
 ```
 
-> These are demo credentials intended for recruiters/reviewers to explore the application.
+> These are demo credentials intended for reviewers to explore the application.
 
 ---
 
