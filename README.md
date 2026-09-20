@@ -75,7 +75,10 @@ A full-stack **Employee Attendance & Leave Management System** with separate Emp
 **Frontend:** React, Vite, Material UI, React Router, Axios, Recharts  
 **Backend:** Java, Spring Boot, Spring Security, JWT, BCrypt, REST APIs  
 **Database:** MySQL  
-**Deployment:** Railway + GitHub
+**Deployment:**
+- Frontend - [Vercel](https://vercel.com)
+- Backend - [Render](https://render.com)
+- Database - [Aiven](https://aiven.io)
 
 # 🔐 Security
 
